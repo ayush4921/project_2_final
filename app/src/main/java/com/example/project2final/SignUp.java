@@ -23,7 +23,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SignupActivity extends AppCompatActivity {
+public class SignUp extends AppCompatActivity {
 
     private EditText nameEditText, ageEditText, addressEditText, usernameEditText, passwordEditText;
     private Spinner genderSpinner;
@@ -102,33 +102,33 @@ public class SignupActivity extends AppCompatActivity {
 
                 // Username validation
                 if (username.length() < 5) {
-                    Toast.makeText(SignupActivity.this, "Username must be at least 5 characters long.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(SignUp.this, "Username must be at least 5 characters long.", Toast.LENGTH_LONG).show();
                     return;
                 }
                 if (!username.matches("^[a-z0-9]+$")) {
-                    Toast.makeText(SignupActivity.this, "Username must be alphanumeric and all lowercase with no spaces.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(SignUp.this, "Username must be alphanumeric and all lowercase with no spaces.", Toast.LENGTH_LONG).show();
                     return;
                 }
 
                 // Password validation
                 if (password.length() < 8) {
-                    Toast.makeText(SignupActivity.this, "Password must be at least 8 characters long.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(SignUp.this, "Password must be at least 8 characters long.", Toast.LENGTH_LONG).show();
                     return;
                 }
                 if (!Character.isUpperCase(password.charAt(0))) {
-                    Toast.makeText(SignupActivity.this, "Password must start with an uppercase letter.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(SignUp.this, "Password must start with an uppercase letter.", Toast.LENGTH_LONG).show();
                     return;
                 }
                 if (!password.matches(".*[0-9].*")) {
-                    Toast.makeText(SignupActivity.this, "Password must contain at least one number.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(SignUp.this, "Password must contain at least one number.", Toast.LENGTH_LONG).show();
                     return;
                 }
                 if (password.contains(" ")) {
-                    Toast.makeText(SignupActivity.this, "Password cannot contain spaces.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(SignUp.this, "Password cannot contain spaces.", Toast.LENGTH_LONG).show();
                     return;
                 }
 
-                Intent intent = new Intent(SignupActivity.this, MainActivity.class);
+                Intent intent = new Intent(SignUp.this, MainActivity.class);
                 startActivity(intent);
 
                 // Hash the password before storing it

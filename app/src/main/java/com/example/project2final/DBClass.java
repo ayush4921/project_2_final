@@ -1,6 +1,7 @@
 package com.example.project2final;
 
 import android.content.ContentValues; import android.content.Context; import android.database.Cursor; import android.database.sqlite.SQLiteDatabase; import android.database.sqlite.SQLiteOpenHelper; import android.util.Base64;
+import android.util.Log;
 
 import java.nio.charset.StandardCharsets; import java.security.MessageDigest; import java.security.NoSuchAlgorithmException; import java.util.ArrayList; import java.util.List;
 
@@ -43,7 +44,7 @@ public class DBClass extends SQLiteOpenHelper { private static final String DATA
                 + COLUMN_NAME + " TEXT,"
                 + COLUMN_AGE + " INTEGER,"
                 + COLUMN_GENDER + " TEXT,"
-                + COLUMN_USERNAME + " TEXT,"
+                + COLUMN_USERNAME + " TEXT UNIQUE,"
                 + COLUMN_PASSWORD + " TEXT"
                 + ")";
 
@@ -86,7 +87,7 @@ public class DBClass extends SQLiteOpenHelper { private static final String DATA
         onCreate(db);
     }
 
-    public void addUser(String name, int age, String gender, String username, String password) {
+    public boolean addUser(String name, int age, String gender, String username, String password) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_NAME, name);
@@ -94,18 +95,23 @@ public class DBClass extends SQLiteOpenHelper { private static final String DATA
         values.put(COLUMN_GENDER, gender);
         values.put(COLUMN_USERNAME, username);
         values.put(COLUMN_PASSWORD, hashPassword(password));
-        db.insert(TABLE_USERS, null, values);
-        db.close();
+        long result = db.insert(TABLE_USERS, null, values);
+        //db.close();();
+        return result != -1;
     }
 
     public boolean isValidLogin(String username, String password) {
         SQLiteDatabase db = this.getReadableDatabase();
-        String hashedPassword = hashPassword(password);
-        String query = "SELECT * FROM " + TABLE_USERS + " WHERE " + COLUMN_USERNAME + "=? AND " + COLUMN_PASSWORD + "=?";
-        Cursor cursor = db.rawQuery(query, new String[]{username, hashedPassword});
-        boolean isValid = cursor.getCount() > 0;
+        String query = "SELECT " + COLUMN_PASSWORD + " FROM " + TABLE_USERS + " WHERE " + COLUMN_USERNAME + "=?";
+        Cursor cursor = db.rawQuery(query, new String[]{username});
+        boolean isValid = false;
+        if (cursor.moveToFirst()) {
+            String storedHashedPassword = cursor.getString(0);
+            String hashedPassword = hashPassword(password);
+            isValid = storedHashedPassword.equals(hashedPassword);
+        }
         cursor.close();
-        db.close();
+        //db.close();();
         return isValid;
     }
 
@@ -121,7 +127,7 @@ public class DBClass extends SQLiteOpenHelper { private static final String DATA
             }
         }
         cursor.close();
-        db.close();
+        ////db.close();();
         return name;
     }
     public void addNote(String noteText, int userId) {
@@ -130,7 +136,7 @@ public class DBClass extends SQLiteOpenHelper { private static final String DATA
         values.put(COLUMN_NOTE_TEXT, noteText);
         values.put(COLUMN_USER_ID, userId);
         db.insert(TABLE_NOTES, null, values);
-        db.close();
+        ////db.close();();
     }
 
     public List<String> getAllNotes(int userId) {
@@ -155,7 +161,7 @@ public class DBClass extends SQLiteOpenHelper { private static final String DATA
                 cursor.close();
             }
             if (db != null) {
-                db.close();
+                ////db.close();();
             }
         }
         return notes;
@@ -166,7 +172,7 @@ public class DBClass extends SQLiteOpenHelper { private static final String DATA
         String whereClause = COLUMN_NOTE_TEXT + "=? AND " + COLUMN_USER_ID + "=?";
         String[] whereArgs = {noteText, String.valueOf(userId)};
         db.delete(TABLE_NOTES, whereClause, whereArgs);
-        db.close();
+        ////db.close();();
     }
 
     public void addActivity(String activityName, boolean activityDone, int userId) {
@@ -176,7 +182,7 @@ public class DBClass extends SQLiteOpenHelper { private static final String DATA
         values.put(COLUMN_ACTIVITY_DONE, activityDone ? 1 : 0);
         values.put(COLUMN_ACTIVITY_USER_ID, userId);
         db.insert(TABLE_ACTIVITIES, null, values);
-        db.close();
+        ////db.close();();
     }
 
     public List<String> getActivities(int userId) {
@@ -201,7 +207,7 @@ public class DBClass extends SQLiteOpenHelper { private static final String DATA
                 cursor.close();
             }
             if (db != null) {
-                db.close();
+                ////db.close();();
             }
         }
         return activities;
@@ -214,7 +220,7 @@ public class DBClass extends SQLiteOpenHelper { private static final String DATA
         String whereClause = COLUMN_ACTIVITY_NAME + "=? AND " + COLUMN_ACTIVITY_USER_ID + "=?";
         String[] whereArgs = {activityName, String.valueOf(userId)};
         db.update(TABLE_ACTIVITIES, values, whereClause, whereArgs);
-        db.close();
+        ////db.close();();
     }
 
     public void addTrackerEntry(String mood, int anxietyLevel, String medicationAdherence, int userId) {
@@ -225,7 +231,7 @@ public class DBClass extends SQLiteOpenHelper { private static final String DATA
         values.put(COLUMN_MEDICATION_ADHERENCE, medicationAdherence);
         values.put(COLUMN_TRACKER_USER_ID, userId);
         db.insert(TABLE_TRACKER, null, values);
-        db.close();
+        ////db.close();();
     }
 
     public String getLatestMood(int userId) {
@@ -240,7 +246,7 @@ public class DBClass extends SQLiteOpenHelper { private static final String DATA
             }
         }
         cursor.close();
-        db.close();
+        ////db.close();();
         return mood;
     }
 
@@ -263,7 +269,7 @@ public class DBClass extends SQLiteOpenHelper { private static final String DATA
                 cursor.close();
             }
             if (db != null) {
-                db.close();
+                ////db.close();();
             }
         }
         return anxietyLevel;
@@ -288,7 +294,7 @@ public class DBClass extends SQLiteOpenHelper { private static final String DATA
                 cursor.close();
             }
             if (db != null) {
-                db.close();
+                ////db.close();();
             }
         }
         return medicationAdherence;
@@ -299,7 +305,11 @@ public class DBClass extends SQLiteOpenHelper { private static final String DATA
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
             byte[] hashedBytes = md.digest(password.getBytes(StandardCharsets.UTF_8));
-            hashedPassword = Base64.encodeToString(hashedBytes, Base64.DEFAULT);
+            StringBuilder sb = new StringBuilder();
+            for (byte b : hashedBytes) {
+                sb.append(String.format("%02x", b));
+            }
+            hashedPassword = sb.toString();
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }

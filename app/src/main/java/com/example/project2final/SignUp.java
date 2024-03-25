@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Base64;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -17,19 +16,16 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SignUp extends AppCompatActivity {
 
-    private EditText nameEditText, ageEditText, addressEditText, usernameEditText, passwordEditText;
+    private EditText nameEditText, ageEditText, usernameEditText, passwordEditText;
     private Spinner genderSpinner;
     private Button submitButton;
     private DBClass databaseHelper;
-    Context c = this;
+    private String selectedGender;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +34,8 @@ public class SignUp extends AppCompatActivity {
 
         initializeViews();
 
-        DBClass db = new DBClass(this, "Users");
+        databaseHelper = new DBClass(this);
 
-        Spinner genderSpinner = (Spinner) findViewById(R.id.genderSpinner);
         List<String> options = new ArrayList<>();
         options.add("Select Gender"); // This is the hint
         options.add("Male");
@@ -76,29 +71,26 @@ public class SignUp extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         genderSpinner.setAdapter(adapter);
         genderSpinner.setSelection(0); // Set the hint as the default selection
-        // Apply the adapter to the spinner
-        genderSpinner.setAdapter(adapter);
+
+        genderSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedGender = parent.getItemAtPosition(position).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                selectedGender = null;
+            }
+        });
 
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                genderSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        String selectedGender = parent.getItemAtPosition(position).toString();
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-                        Toast.makeText(SignupActivity.this, "Please select a gender.", Toast.LENGTH_LONG).show();
-                    }
-                });
-
                 String username = usernameEditText.getText().toString();
                 String password = passwordEditText.getText().toString();
                 String name = nameEditText.getText().toString();
                 String age = ageEditText.getText().toString();
-                String gender = genderSpinner.getSelectedItem().toString();
 
                 // Username validation
                 if (username.length() < 5) {
@@ -128,14 +120,22 @@ public class SignUp extends AppCompatActivity {
                     return;
                 }
 
-                Intent intent = new Intent(SignUp.this, MainActivity.class);
-                startActivity(intent);
+                // Gender validation
+                if (selectedGender == null || selectedGender.equals("Select Gender")) {
+                    Toast.makeText(SignUp.this, "Please select a gender.", Toast.LENGTH_LONG).show();
+                    return;
+                }
 
                 // Hash the password before storing it
-                String hashedPassword = db.hashPassword(password);
+                String hashedPassword = databaseHelper.hashPassword(password);
 
                 // Save the user information in the database
-                db.addInfo(name, age, gender, username, hashedPassword);
+                databaseHelper.addUser(name, Integer.parseInt(age), selectedGender, username, hashedPassword);
+
+                // Redirect to the login screen
+                Intent intent = new Intent(SignUp.this, MainActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
     }
@@ -148,7 +148,4 @@ public class SignUp extends AppCompatActivity {
         passwordEditText = findViewById(R.id.editTextPasswordSignup);
         submitButton = findViewById(R.id.buttonSubmitSignup);
     }
-
-
-
 }

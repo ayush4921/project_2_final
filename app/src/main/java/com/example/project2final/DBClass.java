@@ -294,7 +294,7 @@ public class DBClass extends SQLiteOpenHelper { private static final String DATA
         return medicationAdherence;
     }
 
-    private String hashPassword(String password) {
+    public String hashPassword(String password) {
         String hashedPassword = "";
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");

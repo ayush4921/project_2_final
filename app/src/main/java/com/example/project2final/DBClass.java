@@ -87,6 +87,24 @@ public class DBClass extends SQLiteOpenHelper { private static final String DATA
         onCreate(db);
     }
 
+    public int getUserId(String username) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT " + COLUMN_ID + " FROM " + TABLE_USERS + " WHERE " + COLUMN_USERNAME + "=?";
+        Cursor cursor = db.rawQuery(query, new String[]{username});
+        int userId = -1; // Default to -1 to indicate not found
+        if (cursor.moveToFirst()) {
+            int columnIndex = cursor.getColumnIndex(COLUMN_ID);
+            if (columnIndex != -1) { // Check if the column index is valid
+                userId = cursor.getInt(columnIndex);
+            } else {
+                // Handle the case where the column index is -1 (column not found)
+                Log.e("DBClass", "Column ID not found in the result set");
+            }
+        }
+        cursor.close();
+        return userId;
+    }
+
     public boolean addUser(String name, int age, String gender, String username, String password) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();

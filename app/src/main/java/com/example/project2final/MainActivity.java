@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
                 if (db.isValidLogin(enteredUsername, enteredPassword)) {
                     String userName = db.getUserName(enteredUsername);
+                    int userId = db.getUserId(enteredUsername);
                     Intent intent = new Intent(MainActivity.this, Home.class);
                     intent.putExtra("USERNAME", userName);
                     startActivity(intent);

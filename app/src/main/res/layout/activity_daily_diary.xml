@@ -34,7 +34,7 @@
     <ScrollView
         android:id="@+id/scrollableDiary"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="200dp"
         android:layout_marginTop="20dp"
         android:fillViewport="true"
         app:layout_constraintEnd_toEndOf="parent"
@@ -42,7 +42,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView">
 
         <EditText
-            android:id="@+id/multilineEditText"
+            android:id="@+id/multilineEditTextDiary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="top|start"

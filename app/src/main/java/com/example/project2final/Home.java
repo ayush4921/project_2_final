@@ -17,11 +17,14 @@ public class Home extends AppCompatActivity {
 
         Intent intent = getIntent();
 
+        DBClass db = new DBClass(this);
+
+
         // Retrieve the username passed from the MainActivity
-        String username = intent.getStringExtra("USERNAME_KEY");
+        String username = intent.getStringExtra("USERNAME");
         TextView usernameTextView = findViewById(R.id.textViewName);
         usernameTextView.setText("Hello, " + username);
-
+        int userId = db.getUserId(username);
         Button dailyDiary = findViewById(R.id.btnDailyDiary);
         Button myNotes = findViewById(R.id.btnMyNotes);
         Button tracker = findViewById(R.id.btnTracker);
@@ -31,17 +34,19 @@ public class Home extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intentDailyDiary = new Intent(Home.this, DailyDiary.class);
-                intentDailyDiary.putExtra("USERNAME_KEY", username); // Pass the username to AccountSettings
+                intentDailyDiary.putExtra("USERNAME", username);
                 startActivity(intentDailyDiary);
             }
         });
 
 
         myNotes.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 Intent intentMyNotes = new Intent(Home.this, MyNotes.class);
                 startActivity(intentMyNotes);
+
             }
         });
 
@@ -61,10 +66,5 @@ public class Home extends AppCompatActivity {
             }
         });
 
-    }
-    @Override
-    public void onBackPressed() {
-
-//        super.onBackPressed();
     }
 }

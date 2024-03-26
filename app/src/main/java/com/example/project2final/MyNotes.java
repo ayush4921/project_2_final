@@ -14,6 +14,10 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.List;
+/**
+ * Allows users to view, filter, and delete their notes
+ * stored in a database.
+ */
 
 public class MyNotes extends AppCompatActivity {
 

@@ -7,6 +7,10 @@ import java.nio.charset.StandardCharsets; import java.security.MessageDigest; im
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+/**
+ * SQLiteOpenHelper implementation for managing database operations
+ * related to users, notes, activities, and mood tracking in a mental health app.
+ */
 public class DBClass extends SQLiteOpenHelper { private static final String DATABASE_NAME = "MentalHealthApp.db"; private static final int DATABASE_VERSION = 2;
 
     private static final String TABLE_USERS = "users";

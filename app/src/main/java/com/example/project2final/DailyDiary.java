@@ -9,6 +9,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+/**
+ * Allows users to save diary entries to a
+ * database and provides functionality to go back to the previous activity.
+ */
+
 public class DailyDiary extends AppCompatActivity {
 
     private EditText diaryEntryText;
@@ -29,7 +34,7 @@ public class DailyDiary extends AppCompatActivity {
         Intent intent = getIntent();
         String username = intent.getStringExtra("USERNAME");
         db = new DBClass(this);
-        userId = intent.getIntExtra("USERID",-1);
+        userId = intent.getIntExtra("USERID", -1);
 
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override

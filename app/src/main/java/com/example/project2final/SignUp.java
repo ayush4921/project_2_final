@@ -19,6 +19,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Handles user sign up functionality including form validation and database
+ * interaction.
+ */
 public class SignUp extends AppCompatActivity {
 
     private EditText nameEditText, ageEditText, usernameEditText, passwordEditText;

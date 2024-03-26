@@ -12,6 +12,10 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * Allows users to track their mood, anxiety level, and
+ * medication adherence, and save this information to a database.
+ */
 public class Tracker extends AppCompatActivity {
 
     private RadioGroup radioGroupMood;

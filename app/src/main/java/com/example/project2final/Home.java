@@ -7,6 +7,10 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+/**
+ * Sets up the main functionality for a user interface, including
+ * buttons for different features and handling user interactions.
+ */
 
 public class Home extends AppCompatActivity {
 

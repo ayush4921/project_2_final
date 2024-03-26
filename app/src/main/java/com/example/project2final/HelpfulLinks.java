@@ -7,6 +7,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+/**
+ * Sets up buttons to open specific web pages related to mental health
+ * resources when clicked.
+ */
 
 public class HelpfulLinks extends AppCompatActivity {
 

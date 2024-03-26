@@ -8,6 +8,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+/**
+ * Handles user authentication and navigation to different
+ * activities based on login credentials.
+ */
 
 public class MainActivity extends AppCompatActivity {
 

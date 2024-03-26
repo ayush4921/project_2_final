@@ -34,7 +34,7 @@ public class SignUp extends AppCompatActivity {
 
         initializeViews();
 
-        databaseHelper = new DBClass(this);
+        DBClass db = new DBClass(this);
 
         List<String> options = new ArrayList<>();
         options.add("Select Gender"); // This is the hint
@@ -89,8 +89,9 @@ public class SignUp extends AppCompatActivity {
             public void onClick(View v) {
                 String username = usernameEditText.getText().toString();
                 String password = passwordEditText.getText().toString();
+                String gender = selectedGender;
                 String name = nameEditText.getText().toString();
-                String age = ageEditText.getText().toString();
+                int age = Integer.parseInt(ageEditText.getText().toString());
 
                 // Username validation
                 if (username.length() < 5) {
@@ -126,11 +127,7 @@ public class SignUp extends AppCompatActivity {
                     return;
                 }
 
-                // Hash the password before storing it
-                String hashedPassword = databaseHelper.hashPassword(password);
-
-                // Save the user information in the database
-                databaseHelper.addUser(name, Integer.parseInt(age), selectedGender, username, hashedPassword);
+                db.addUser(name, age, gender, username, password);
 
                 // Redirect to the login screen
                 Intent intent = new Intent(SignUp.this, MainActivity.class);

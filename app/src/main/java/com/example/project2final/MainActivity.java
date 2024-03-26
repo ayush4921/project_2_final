@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
                     int userId = db.getUserId(enteredUsername);
                     Intent intent = new Intent(MainActivity.this, Home.class);
                     intent.putExtra("USERNAME", userName);
+                    intent.putExtra("USERID", userId);
                     startActivity(intent);
                     finish();
                 } else {

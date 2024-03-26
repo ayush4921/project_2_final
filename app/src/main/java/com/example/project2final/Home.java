@@ -22,9 +22,9 @@ public class Home extends AppCompatActivity {
 
         // Retrieve the username passed from the MainActivity
         String username = intent.getStringExtra("USERNAME");
+        int userId = intent.getIntExtra("USERID",-1);
         TextView usernameTextView = findViewById(R.id.textViewName);
         usernameTextView.setText("Hello, " + username);
-        int userId = db.getUserId(username);
         Button dailyDiary = findViewById(R.id.btnDailyDiary);
         Button myNotes = findViewById(R.id.btnMyNotes);
         Button tracker = findViewById(R.id.btnTracker);
@@ -36,18 +36,18 @@ public class Home extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intentDailyDiary = new Intent(Home.this, DailyDiary.class);
                 intentDailyDiary.putExtra("USERNAME", username);
+                intentDailyDiary.putExtra("USERID", userId);
                 startActivity(intentDailyDiary);
             }
         });
 
 
         myNotes.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 Intent intentMyNotes = new Intent(Home.this, MyNotes.class);
+                intentMyNotes.putExtra("USERID", userId);
                 startActivity(intentMyNotes);
-
             }
         });
 

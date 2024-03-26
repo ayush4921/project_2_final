@@ -127,12 +127,18 @@ public class SignUp extends AppCompatActivity {
                     return;
                 }
 
-                db.addUser(name, age, gender, username, password);
+                // Check if the user already exists
+                boolean userAdded = db.addUser(name, age, gender, username, password);
 
-                // Redirect to the login screen
-                Intent intent = new Intent(SignUp.this, MainActivity.class);
-                startActivity(intent);
-                finish();
+                if (userAdded) {
+                    // User added successfully, redirect to the login screen
+                    Intent intent = new Intent(SignUp.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    // User already exists, display an alert
+                    Toast.makeText(SignUp.this, "Username already exists. Please choose a different username.", Toast.LENGTH_LONG).show();
+                }
             }
         });
     }

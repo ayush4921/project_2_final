@@ -4,8 +4,10 @@ import android.content.ContentValues; import android.content.Context; import and
 import android.util.Log;
 
 import java.nio.charset.StandardCharsets; import java.security.MessageDigest; import java.security.NoSuchAlgorithmException; import java.util.ArrayList; import java.util.List;
-
-public class DBClass extends SQLiteOpenHelper { private static final String DATABASE_NAME = "MentalHealthApp.db"; private static final int DATABASE_VERSION = 1;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+public class DBClass extends SQLiteOpenHelper { private static final String DATABASE_NAME = "MentalHealthApp.db"; private static final int DATABASE_VERSION = 2;
 
     private static final String TABLE_USERS = "users";
     private static final String COLUMN_ID = "id";
@@ -32,11 +34,14 @@ public class DBClass extends SQLiteOpenHelper { private static final String DATA
     private static final String COLUMN_ANXIETY_LEVEL = "anxiety_level";
     private static final String COLUMN_MEDICATION_ADHERENCE = "medication_adherence";
     private static final String COLUMN_TRACKER_USER_ID = "user_id";
-
+    private static final String COLUMN_DATE = "date";
     public DBClass(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
-
+    private String getCurrentDateTime() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        return sdf.format(new Date());
+    }
     @Override
     public void onCreate(SQLiteDatabase db) {
         String createUsersTable = "CREATE TABLE " + TABLE_USERS + "("
@@ -52,6 +57,7 @@ public class DBClass extends SQLiteOpenHelper { private static final String DATA
                 + COLUMN_NOTE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + COLUMN_NOTE_TEXT + " TEXT,"
                 + COLUMN_USER_ID + " INTEGER,"
+                + COLUMN_DATE + " TEXT,"
                 + "FOREIGN KEY(" + COLUMN_USER_ID + ") REFERENCES " + TABLE_USERS + "(" + COLUMN_ID + ")"
                 + ")";
 
@@ -60,6 +66,7 @@ public class DBClass extends SQLiteOpenHelper { private static final String DATA
                 + COLUMN_ACTIVITY_NAME + " TEXT,"
                 + COLUMN_ACTIVITY_DONE + " INTEGER,"
                 + COLUMN_ACTIVITY_USER_ID + " INTEGER,"
+                + COLUMN_DATE + " TEXT,"
                 + "FOREIGN KEY(" + COLUMN_ACTIVITY_USER_ID + ") REFERENCES " + TABLE_USERS + "(" + COLUMN_ID + ")"
                 + ")";
 
@@ -69,6 +76,7 @@ public class DBClass extends SQLiteOpenHelper { private static final String DATA
                 + COLUMN_ANXIETY_LEVEL + " INTEGER,"
                 + COLUMN_MEDICATION_ADHERENCE + " TEXT,"
                 + COLUMN_TRACKER_USER_ID + " INTEGER,"
+                + COLUMN_DATE + " TEXT,"
                 + "FOREIGN KEY(" + COLUMN_TRACKER_USER_ID + ") REFERENCES " + TABLE_USERS + "(" + COLUMN_ID + ")"
                 + ")";
 
@@ -80,11 +88,12 @@ public class DBClass extends SQLiteOpenHelper { private static final String DATA
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NOTES);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_ACTIVITIES);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_TRACKER);
-        onCreate(db);
+        if (oldVersion < 2) {
+            // Upgrade from version 1 to version 2
+            db.execSQL("ALTER TABLE " + TABLE_NOTES + " ADD COLUMN " + COLUMN_DATE + " TEXT");
+            db.execSQL("ALTER TABLE " + TABLE_ACTIVITIES + " ADD COLUMN " + COLUMN_DATE + " TEXT");
+            db.execSQL("ALTER TABLE " + TABLE_TRACKER + " ADD COLUMN " + COLUMN_DATE + " TEXT");
+        }
     }
 
     public int getUserId(String username) {
@@ -107,6 +116,21 @@ public class DBClass extends SQLiteOpenHelper { private static final String DATA
 
     public boolean addUser(String name, int age, String gender, String username, String password) {
         SQLiteDatabase db = this.getWritableDatabase();
+
+        // Check if the user already exists
+        String[] columns = {COLUMN_ID};
+        String selection = COLUMN_USERNAME + " = ?";
+        String[] selectionArgs = {username};
+        Cursor cursor = db.query(TABLE_USERS, columns, selection, selectionArgs, null, null, null);
+        boolean userExists = (cursor.getCount() > 0);
+        cursor.close();
+
+        if (userExists) {
+            // User already exists, return false
+            return false;
+        }
+
+        // User doesn't exist, insert the new user
         ContentValues values = new ContentValues();
         values.put(COLUMN_NAME, name);
         values.put(COLUMN_AGE, age);
@@ -114,7 +138,6 @@ public class DBClass extends SQLiteOpenHelper { private static final String DATA
         values.put(COLUMN_USERNAME, username);
         values.put(COLUMN_PASSWORD, hashPassword(password));
         long result = db.insert(TABLE_USERS, null, values);
-        //db.close();();
         return result != -1;
     }
 
@@ -153,8 +176,9 @@ public class DBClass extends SQLiteOpenHelper { private static final String DATA
         ContentValues values = new ContentValues();
         values.put(COLUMN_NOTE_TEXT, noteText);
         values.put(COLUMN_USER_ID, userId);
+        values.put(COLUMN_DATE, getCurrentDateTime());
         db.insert(TABLE_NOTES, null, values);
-        ////db.close();();
+        //db.close();
     }
 
     public List<String> getAllNotes(int userId) {
@@ -199,6 +223,7 @@ public class DBClass extends SQLiteOpenHelper { private static final String DATA
         values.put(COLUMN_ACTIVITY_NAME, activityName);
         values.put(COLUMN_ACTIVITY_DONE, activityDone ? 1 : 0);
         values.put(COLUMN_ACTIVITY_USER_ID, userId);
+        values.put(COLUMN_DATE, getCurrentDateTime());
         db.insert(TABLE_ACTIVITIES, null, values);
         ////db.close();();
     }
@@ -248,6 +273,7 @@ public class DBClass extends SQLiteOpenHelper { private static final String DATA
         values.put(COLUMN_ANXIETY_LEVEL, anxietyLevel);
         values.put(COLUMN_MEDICATION_ADHERENCE, medicationAdherence);
         values.put(COLUMN_TRACKER_USER_ID, userId);
+        values.put(COLUMN_DATE, getCurrentDateTime());
         db.insert(TABLE_TRACKER, null, values);
         ////db.close();();
     }

@@ -20,11 +20,7 @@ public class HelpfulLinks extends AppCompatActivity {
         lifeLine.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Uri webpage = Uri.parse("https://988lifeline.org");
-                Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
-                if (intent.resolveActivity(getPackageManager()) != null) {
-                    startActivity(intent);
-                }
+                openWebPage("https://988lifeline.org");
             }
         });
 
@@ -33,11 +29,7 @@ public class HelpfulLinks extends AppCompatActivity {
         findTreatment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Uri webpage = Uri.parse("https://findtreatment.gov");
-                Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
-                if (intent.resolveActivity(getPackageManager()) != null) {
-                    startActivity(intent);
-                }
+                openWebPage("https://findtreatment.gov");
             }
         });
 
@@ -46,11 +38,7 @@ public class HelpfulLinks extends AppCompatActivity {
         caringForMentalHealth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Uri webpage = Uri.parse("https://www.nimh.nih.gov/health/topics/caring-for-your-mental-health");
-                Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
-                if (intent.resolveActivity(getPackageManager()) != null) {
-                    startActivity(intent);
-                }
+                openWebPage("https://www.nimh.nih.gov/health/topics/caring-for-your-mental-health");
             }
         });
 
@@ -61,5 +49,11 @@ public class HelpfulLinks extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    private void openWebPage(String url) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(url));
+        startActivity(intent);
     }
 }

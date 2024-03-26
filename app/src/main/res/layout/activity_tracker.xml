@@ -27,5 +27,130 @@
         android:textSize="10sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/textViewMood"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="How are you feeling today?"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/backButton" />
+
+    <RadioGroup
+        android:id="@+id/radioGroupMood"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewMood">
+
+        <RadioButton
+            android:id="@+id/radioButtonNeutral"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Neutral" />
+
+        <RadioButton
+            android:id="@+id/radioButtonSad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sad" />
+
+        <RadioButton
+            android:id="@+id/radioButtonVerySad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Very Sad" />
+
+        <RadioButton
+            android:id="@+id/radioButtonHappy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Happy" />
+
+        <RadioButton
+            android:id="@+id/radioButtonVeryHappy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Very Happy" />
+
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/textViewAnxiety"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Anxiety Level (0-5):"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/radioGroupMood" />
+
+    <SeekBar
+        android:id="@+id/seekBarAnxiety"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="5"
+        android:progress="0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewAnxiety" />
+
+    <TextView
+        android:id="@+id/textViewMedication"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Are you currently on any medication?"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/seekBarAnxiety" />
+
+    <CheckBox
+        android:id="@+id/checkBoxMedication"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Yes"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewMedication" />
+
+    <TextView
+        android:id="@+id/textViewMedicationAdherence"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Did you take your medication on time today?"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/checkBoxMedication" />
+
+    <RadioGroup
+        android:id="@+id/radioGroupMedicationAdherence"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewMedicationAdherence">
+
+        <RadioButton
+            android:id="@+id/radioButtonYes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Yes" />
+
+        <RadioButton
+            android:id="@+id/radioButtonNo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No" />
+
+        <RadioButton
+            android:id="@+id/radioButtonNotApplicable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Not Applicable" />
+
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/buttonSubmit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Submit"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/radioGroupMedicationAdherence" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

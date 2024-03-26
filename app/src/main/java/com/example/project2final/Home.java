@@ -55,6 +55,7 @@ public class Home extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intentTracker = new Intent(Home.this, Tracker.class);
+                intentTracker.putExtra("USERID", userId);
                 startActivity(intentTracker);
             }
         });

@@ -156,7 +156,7 @@ public class DBClass extends SQLiteOpenHelper { private static final String DATA
             isValid = storedHashedPassword.equals(hashedPassword);
         }
         cursor.close();
-        //db.close();();
+        db.close();
         return isValid;
     }
 
@@ -172,7 +172,7 @@ public class DBClass extends SQLiteOpenHelper { private static final String DATA
             }
         }
         cursor.close();
-        ////db.close();();
+        db.close();
         return name;
     }
     public void addNote(String noteText, int userId) {
@@ -182,7 +182,7 @@ public class DBClass extends SQLiteOpenHelper { private static final String DATA
         values.put(COLUMN_USER_ID, userId);
         values.put(COLUMN_DATE, getCurrentDateTime());
         db.insert(TABLE_NOTES, null, values);
-        //db.close();
+        db.close();
     }
 
     public List<String> getAllNotes(int userId) {
@@ -207,7 +207,7 @@ public class DBClass extends SQLiteOpenHelper { private static final String DATA
                 cursor.close();
             }
             if (db != null) {
-                ////db.close();();
+                db.close();
             }
         }
         return notes;
@@ -218,7 +218,7 @@ public class DBClass extends SQLiteOpenHelper { private static final String DATA
         String whereClause = COLUMN_NOTE_TEXT + "=? AND " + COLUMN_USER_ID + "=?";
         String[] whereArgs = {noteText, String.valueOf(userId)};
         db.delete(TABLE_NOTES, whereClause, whereArgs);
-        ////db.close();();
+        db.close();
     }
 
     public void addActivity(String activityName, boolean activityDone, int userId) {
@@ -229,7 +229,7 @@ public class DBClass extends SQLiteOpenHelper { private static final String DATA
         values.put(COLUMN_ACTIVITY_USER_ID, userId);
         values.put(COLUMN_DATE, getCurrentDateTime());
         db.insert(TABLE_ACTIVITIES, null, values);
-        ////db.close();();
+        db.close();
     }
 
     public List<String> getActivities(int userId) {
@@ -254,7 +254,7 @@ public class DBClass extends SQLiteOpenHelper { private static final String DATA
                 cursor.close();
             }
             if (db != null) {
-                ////db.close();();
+                db.close();
             }
         }
         return activities;
@@ -267,7 +267,7 @@ public class DBClass extends SQLiteOpenHelper { private static final String DATA
         String whereClause = COLUMN_ACTIVITY_NAME + "=? AND " + COLUMN_ACTIVITY_USER_ID + "=?";
         String[] whereArgs = {activityName, String.valueOf(userId)};
         db.update(TABLE_ACTIVITIES, values, whereClause, whereArgs);
-        ////db.close();();
+        db.close();
     }
 
     public void addTrackerEntry(String mood, int anxietyLevel, String medicationAdherence, int userId) {
@@ -279,7 +279,7 @@ public class DBClass extends SQLiteOpenHelper { private static final String DATA
         values.put(COLUMN_TRACKER_USER_ID, userId);
         values.put(COLUMN_DATE, getCurrentDateTime());
         db.insert(TABLE_TRACKER, null, values);
-        ////db.close();();
+        db.close();
     }
 
     public String getLatestMood(int userId) {
@@ -294,7 +294,7 @@ public class DBClass extends SQLiteOpenHelper { private static final String DATA
             }
         }
         cursor.close();
-        ////db.close();();
+        db.close();
         return mood;
     }
 
@@ -317,7 +317,7 @@ public class DBClass extends SQLiteOpenHelper { private static final String DATA
                 cursor.close();
             }
             if (db != null) {
-                ////db.close();();
+                db.close();
             }
         }
         return anxietyLevel;
@@ -342,7 +342,7 @@ public class DBClass extends SQLiteOpenHelper { private static final String DATA
                 cursor.close();
             }
             if (db != null) {
-                ////db.close();();
+                db.close();
             }
         }
         return medicationAdherence;

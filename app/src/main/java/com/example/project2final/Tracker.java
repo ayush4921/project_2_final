@@ -33,7 +33,6 @@ public class Tracker extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tracker);
 
-        // Initialize views
         radioGroupMood = findViewById(R.id.radioGroupMood);
         seekBarAnxiety = findViewById(R.id.seekBarAnxiety);
         checkBoxMedication = findViewById(R.id.checkBoxMedication);
@@ -47,7 +46,6 @@ public class Tracker extends AppCompatActivity {
         // Initialize the database
         db = new DBClass(this);
 
-        // Set up checkbox listener
         checkBoxMedication.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -61,7 +59,6 @@ public class Tracker extends AppCompatActivity {
             }
         });
 
-        // Set up submit button click listener
         buttonSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -107,7 +104,6 @@ public class Tracker extends AppCompatActivity {
             }
         });
 
-        // Set up back button click listener
         Button backButton = findViewById(R.id.backButton);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -15,6 +15,19 @@
         app:srcCompat="@drawable/cznmcy1wcml2yxrll3jhd3bpegvsx2ltywdlcy93zwjzaxrlx2nvbnrlbnqvbhivcm00otqtymctmda0yy14lmpwzw_jpg"
         android:scaleType="centerCrop"/>
 
+    <Button
+        android:id="@+id/backButton"
+        android:layout_width="64dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:backgroundTint="#3F51B5"
+        android:padding="0dp"
+        android:text="Back"
+        android:textSize="10sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/textViewMyNotesTitle"
         android:layout_width="wrap_content"

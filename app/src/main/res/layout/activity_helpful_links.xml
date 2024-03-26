@@ -15,6 +15,19 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/cznmcy1wcml2yxrll3jhd3bpegvsx2ltywdlcy93zwjzaxrlx2nvbnrlbnqvbhivcm00otqtymctmda0yy14lmpwzw_jpg" />
 
+    <Button
+        android:id="@+id/backButton"
+        android:layout_width="64dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:backgroundTint="#3F51B5"
+        android:padding="0dp"
+        android:text="Back"
+        android:textSize="10sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/textViewHelpfulLinks"
         android:layout_width="wrap_content"
@@ -33,6 +46,7 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
+        android:backgroundTint="#2196F3"
         android:text="988 Suicide  Crisis Lifeline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
@@ -44,6 +58,7 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
+        android:backgroundTint="#2196F3"
         android:text="Find Treatment"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
@@ -55,6 +70,7 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
+        android:backgroundTint="#2196F3"
         android:text="Caring for your mental health"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"

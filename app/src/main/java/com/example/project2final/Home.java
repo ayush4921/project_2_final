@@ -29,6 +29,7 @@ public class Home extends AppCompatActivity {
         Button myNotes = findViewById(R.id.btnMyNotes);
         Button tracker = findViewById(R.id.btnTracker);
         Button links = findViewById(R.id.btnHelpfulLinks);
+        Button logOut = findViewById(R.id.buttonLogOut);
 
         dailyDiary.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,6 +66,15 @@ public class Home extends AppCompatActivity {
                 startActivity(intentLinks);
             }
         });
+
+        logOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentLogOut = new Intent(Home.this, MainActivity.class);
+                startActivity(intentLogOut);
+            }
+        });
+
 
     }
 }

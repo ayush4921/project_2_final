@@ -53,5 +53,13 @@ public class HelpfulLinks extends AppCompatActivity {
                 }
             }
         });
+
+        Button backButton = findViewById(R.id.backButton);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 }
